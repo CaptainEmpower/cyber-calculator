@@ -1,0 +1,133 @@
+# Pour en savoir plus sur le langage :
+# => https://publi.codes/documentation/principes-de-base
+
+salaire brut expert cyber:
+  question: Quel est le salaire brut moyen des experts cyber de votre équipe ? # RH salaire brut moyen d'un salarié cybersécurité ou IT avec responsabilité cyber
+  type: nombre
+  par défaut: 75000 €
+
+coût journalier moyen expert cyber externe:
+  question: Quel est le coût journalier moyen des experts cyber externes de votre équipe ?
+  type: nombre
+  par défaut: 750 €
+
+nombre d'experts cyber externes:
+  question: Combien d'experts cyber externes comporte votre équipe ?
+  type: nombre
+  par défaut: 3
+
+nombre d'experts cyber internes:
+  question: Combien d'experts cyber internes comporte votre équipe ?
+  type: nombre
+  par défaut: 8
+
+nombre d'apprentis cyber :
+  question: Combien d'apprentis comporte votre équipe ?
+  type: nombre
+  par défaut: 2
+
+# La règle "age" contient la réponse à la question correspondante
+#personne majeure: age >= 18
+
+constantes RH:
+  avec:
+    heures travaillées: 7
+    nombre moyen de jours travaillés par an: 210
+    taux charges: 1.5
+    coût annuel moyen net apprenti cyber: 5000 €
+    coût annuel moyen d'un environnement de travail: 15000 €
+
+coûts:
+  avec:
+    annuel supervision d'un endpoint: 130 €
+
+effectif collaborateurs cyber:
+  somme:
+    - nombre d'apprentis cyber
+    - nombre d'experts cyber internes
+    - nombre d'apprentis cyber
+
+dépenses annuelles people cyber:
+  somme:
+    - salaire brut expert cyber * constantes RH . taux charges * nombre d'experts cyber internes
+    - coût journalier moyen expert cyber externe * constantes RH . nombre moyen de jours travaillés par an * nombre d'experts cyber externes
+    - constantes RH . coût annuel moyen net apprenti cyber * nombre d'apprentis cyber
+    - effectif collaborateurs cyber * constantes RH . coût annuel moyen d'un environnement de travail
+
+nombre d'endpoints:
+  question: combien disposez-vous d'endpoints ? (postes de travail et serveurs, hors mobiles)
+  type: nombre
+  par défaut: 5000
+
+dépenses annuelles SOC:
+  somme:
+    - coûts . annuel supervision d'un endpoint * nombre d'endpoints
+
+dépenses annuelles cyber:
+  somme:
+    - dépenses annuelles people cyber
+    - dépenses annuelles SOC
+    #- dépenses annuelles autres prestations
+    #- dépenses annuelles licences
+    #- dépenses annuelles cyber assurance
+
+percentage of additional revenue that can be generated with cyber at the core of business:
+  question: quel chiffre d'affaires additionnel est-il envisageable de générer en intégrant la cyber dans le coeur des produits et services ?
+  type: nombre
+  par défaut: 3%
+
+annual revenue baseline:
+  question: quel est le chiffre d'affaires annuel de référence ?
+  type: nombre
+  par défaut: 5000000000
+
+contribution of project to additional cyber revenue:
+  question: quel est le pourcentage de contribution attribuable au produit ?
+  type: nombre
+  par défaut: 20%
+
+potentiel de revenu additionel généré par la cybersécurité: annual revenue baseline * percentage of additional revenue that can be generated with cyber at the core of business
+
+potentiel de revenu supplémentaire attribuable au projet: potentiel de revenu additionel généré par la cybersécurité * contribution of project to additional cyber revenue
+
+effectif salarié de l'entreprise:
+  question: combien de salariés emploie l'entreprise ?
+  type: nombre
+  par défaut: 7000
+
+salaire brut collaborateur: # hors cyber
+  question: Quel est le salaire brut moyen des collaborateurs de votre entreprise ?
+  type: nombre
+  par défaut: 65000 €
+
+coût annuel collaborateur: 
+  somme:
+    - salaire brut collaborateur * constantes RH . taux charges
+    - constantes RH . coût annuel moyen d'un environnement de travail
+
+coût journalier collaborateur: coût annuel collaborateur / constantes RH . nombre moyen de jours travaillés par an
+
+charge de travail journalière en min perdue par un collaborateur du fait de frictions cyber:
+  question: quelle est la charge de travail journalière moyenne perdue par un collaborateur du fait de frictions cyber (en min) ?
+  type: nombre
+  par défaut: 5
+
+charge de travail annuel en min perdues par un collaborateur du fait de frictions cyber: charge de travail journalière en min perdue par un collaborateur du fait de frictions cyber * constantes RH . nombre moyen de jours travaillés par an
+
+charge de travail annuel en jours perdus par un collaborateur du fait de frictions cyber: charge de travail annuel en min perdues par un collaborateur du fait de frictions cyber / 60 / constantes RH . heures travaillées
+
+coût annuel moyen par collaborateur des frictions cyber: charge de travail annuel en jours perdus par un collaborateur du fait de frictions cyber * coût journalier collaborateur
+
+masse salariale annuelle perdue du fait des frictions cyber: coût annuel moyen par collaborateur des frictions cyber * effectif salarié de l'entreprise
+
+potentiel d'efficacité de masse salariale attribuable au projet: masse salariale annuelle perdue du fait des frictions cyber * 20%
+
+
+
+# références
+# https://www.gereso.com/actualites/2017/07/28/indicateurs-comptables-performance-service-rh/
+
+# TODO: pertes moyennes annuelles liées aux cyber incidents, potentiel d'économie et part attribuble au projet
+
+# TODO: nombre de projets annuellement gérés, potentiel d'économie en cas de gestion de la cyber "au bon moment", part attribuable au projet
+
